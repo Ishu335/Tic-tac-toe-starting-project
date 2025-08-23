@@ -75,7 +75,7 @@ h1 {
 }
 
 #players.highlight-player li.active {
-  border-color: #f6e35a;
+  border:2px solid #f6e35a;
   animation: pulse 2s infinite ease-in-out;
 }
 
