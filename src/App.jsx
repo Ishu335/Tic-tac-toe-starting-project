@@ -5,40 +5,46 @@ import Log  from "./components/Log.jsx";
 import {WINNING_COMBINATIONS} from './winning_combination.js'
 import GameOver from "./components/GameOver.jsx";
 
-
-const initialGameBoard = [
+// Players name Initial
+const PLAYERS={
+X:'Player 1',
+O:'Player 2'
+}
+// Initial Game Arrya
+const INITIAL_GAME_BOARD = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
 ];
 
-function deriveActivePlayer(gameTurns){
-  
+// Logic for Turn Shifting
+function deriveActivePlayer(gameTurns)
+{
       let currentPlayer='X';
-      if(gameTurns.length>0  && gameTurns[0].player=='X'){
+      if(gameTurns.length>0  && gameTurns[0].player=='X')
+      {
         currentPlayer='O';
       }
       return currentPlayer;
 }
 
-function App() 
+function deriveGameBoard(gameTurns)
 {
-      const [gameTurns,setGameTurns]=useState([]);
-      // const [activePlayer,setActivePlayer]=useState('X')
-      let activePlayer=deriveActivePlayer(gameTurns);
-      
+      let gameBoard=[...INITIAL_GAME_BOARD.map(innerarray=> [...innerarray])];
+        for(const turn  of  gameTurns)
+          {
+          const  {square,player}=turn;
+          const {row,col}=square;
+          gameBoard[row][col]=player;
+        }
+        return gameBoard;
+}
 
-       let gameBoard=[...initialGameBoard.map(innerarray=> [...innerarray])];
-
-      for(const turn  of  gameTurns)
-        {
-        const  {square,player}=turn;
-        const {row,col}=square;
-        gameBoard[row][col]=player;
-      }
-
-      let winner;
-     for (const combination of WINNING_COMBINATIONS)
+// Logic of which Player is Active 
+function deriveWinner(gameBoard,players)
+{
+    let winner;
+    for (const combination of WINNING_COMBINATIONS)
       {
           const fistSqureSymbole=gameBoard[combination[0].row][combination[0].column]
           const secondSqureSymbole=gameBoard[combination[1].row][combination[1].column]
@@ -46,20 +52,33 @@ function App()
 
           if(fistSqureSymbole && fistSqureSymbole===secondSqureSymbole&& fistSqureSymbole===thirdSqureSymbole)
           {
-              winner=fistSqureSymbole;
+              winner=players[fistSqureSymbole];
           }
-     }
+    }
+    return winner;
+}
 
-     function handelRestart(){
-      setGameTurns([]);
-     }
-
-
+function App() 
+{
+    // Status
+    const [players,setPlayers]=useState(PLAYERS)
+    const [gameTurns,setGameTurns]=useState([]);
+    
+    // Const Variable of Helper functions
+    const activePlayer=deriveActivePlayer(gameTurns);
+    const gameBoard=deriveGameBoard(gameTurns);
+    const winner =deriveWinner(gameBoard,players);
     let  hasDraw=gameTurns.length===9 && !winner;
+    
+    // Restart Logic
+    function handelRestart()
+    {
+      setGameTurns([]);
+    }
+
+    // Store the Game Pattens
     function handelSelectSquare(rowIndex,colIndex)
     {
-      // setActivePlayer((currentActivePlayer)=>currentActivePlayer==='X'?'O':'X');
-
       setGameTurns(prevTurns=>{
 
         let currentPlayer=deriveActivePlayer(prevTurns);
@@ -75,13 +94,31 @@ function App()
         return updatedTurns;
       });
     }
-  
+
+  //Player Name Change 
+    function handlePlyerNameChange(symbole,newName)
+    {
+      setPlayers(prePlayer=>{
+        return{
+          ...prePlayer,
+          [symbole]:newName
+        }
+      });
+    }
+
   return (
     <main>
       <div id="game-container">
         <ol id="players" className="highlight-player">
-          <Player initialName="Player 1" symbol="X" isActive={activePlayer=='X'}/>
-          <Player initialName="Player 2" symbol="O" isActive={activePlayer=='O'}/>
+          <Player initialName={PLAYERS.X}
+                  symbol="X" 
+                  isActive={activePlayer=='X'}
+                  onChangeName={handlePlyerNameChange}/>
+
+          <Player initialName={PLAYERS.O} 
+                  symbol="O" 
+                  isActive={activePlayer=='O'}
+                  onChangeName={handlePlyerNameChange}/>
         </ol>
         {(winner|| hasDraw) && <GameOver winner={winner} onRestart={handelRestart}/> }
         <GameBoard onSelectSqure={handelSelectSquare} board={gameBoard}/>
