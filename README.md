@@ -21,11 +21,33 @@ This project is a classic Tic-Tac-Toe game built using React.js. It demonstrates
 
 ## 📂 Project Structure
 ```
-Tic-tac-toe-starting-project/
-│── index.html # Main game UI
-│── style.css # Styling for the board and layout
-│── script.js # Game logic and interactivity
-└── README.md # Project documentation
+tic-tac-toe-react/
+│
+├── public/                  # Static files
+│   ├── index.html           # Main HTML file
+│   └── favicon.ico          # App icon (optional)
+│
+├── src/                     # Source code
+│   ├── assets/              # Images, icons, screenshots
+│   │   └── Tic-tak-toe.png
+│   │
+│   ├── components/          # Reusable React components
+│   │   ├── Board.jsx        # Game board
+│   │   ├── Square.jsx       # Single square
+│   │   └── GameStatus.jsx   # Status (Winner, Draw, Next Player)
+│   │
+│   ├── styles/              # CSS files
+│   │   └── App.css
+│   │
+│   ├── App.jsx              # Root component
+│   ├── index.js             # Entry point
+│   └── utils/               # Helper functions (optional)
+│       └── gameLogic.js     # Win condition logic
+│
+├── package.json             # Dependencies & scripts
+├── README.md                # Project documentation
+└── .gitignore               # Ignore node_modules etc.
+
 ```
 
 ## 🛠️ How to Run Locally
