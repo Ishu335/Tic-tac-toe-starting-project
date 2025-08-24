@@ -1,7 +1,12 @@
 # 🎮 Tic Tac Toe – Starting Project
 
-A simple **Tic Tac Toe game** built with **HTML, CSS, and JavaScript**.  
-This is a starting project designed to practice game logic, DOM manipulation, and frontend fundamentals.  
+This project is a classic Tic-Tac-Toe game built using React.js. It demonstrates how React components, state management, and props can be used to build an interactive game.
+
+⚛️ React Components – Modular structure for the board, squares, and game logic.
+🔄 State Management – Uses React hooks to handle turns, game status, and resets.
+🏆 Win & Draw Detection – Highlights the winner or declares a tie.
+🎨 Responsive UI – Styled for a smooth and clean user experience.
+🚀 Beginner-Friendly – Great project to understand React basics like props, state, and conditional rendering.
 
 ---
 
